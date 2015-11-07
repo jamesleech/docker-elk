@@ -6,5 +6,7 @@ COPY entrypoint.sh /tmp/entrypoint.sh
 RUN chmod +x /tmp/entrypoint.sh
 
 RUN kibana plugin --install elastic/sense
+RUN kibana plugin --install royrusso/elasticsearch-HQ
+#RUN kibana plugin --install mobz/elasticsearch-head
 
 CMD ["/tmp/entrypoint.sh"]
