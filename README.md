@@ -50,10 +50,10 @@ Now that the stack is running, you'll want to inject logs in it. The shipped log
 $ nc localhost 5000 < /path/to/logfile.log
 ```
 
-And then access Kibana UI by hitting [http://localhost:5601](http://localhost:5601) with a web browser.
+And then access Kibana UI by hitting [http://localhost](http://localhost) with a web browser.
 
 You can also access:
-* Sense: [http://localhost:5601/app/sense](http://localhost:5601/app/sense)
+* Sense: [http://localhost:5601/app/sense](http://localhost/app/sense)
 
 *Note*: In order to use Sense, you'll need to query the IP address associated to your *network device* instead of localhost.
 
