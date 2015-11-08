@@ -19,6 +19,15 @@ kibana:
 
 redis:
   image: redis:latest
+  ports:
+    - "6379:6379"
+
+redisreact:
+  build:  redisreact/
+  ports:
+    - "2337:2337"
+  links:
+    - redis
 
 logstashInput:
   image: logstash:latest
