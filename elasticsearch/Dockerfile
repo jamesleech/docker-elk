@@ -1,4 +1,4 @@
-FROM elasticsearch:latest
+FROM elasticsearch:2
 MAINTAINER james.leech@tattsgroup.com
 
 #RUN apt-get update

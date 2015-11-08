@@ -23,14 +23,14 @@ redis:
     - "6379:6379"
 
 redisreact:
-  build:  redisreact/
+  build:  redisReact/
   ports:
     - "2337:2337"
   links:
     - redis
 
 logstashInput:
-  image: logstash:latest
+  image: logstash:2
   command: logstash -f /etc/logstash/conf.d/*.conf
   volumes:
     - ./logstash/configInput:/etc/logstash/conf.d
@@ -51,11 +51,11 @@ logstashFilter:
     - elasticsearch
 
 
-# curator:
-#   build: curator/
-#   links:
-#     - elasticsearch
-#
+curator:
+  build: curator/
+  links:
+    - elasticsearch
+
 # elasticsearch2:
 #   build: elasticsearch/
 #   #image: elasticsearch:latest
