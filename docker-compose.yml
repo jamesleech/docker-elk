@@ -4,30 +4,9 @@ elasticsearch:
   #command: elasticsearch -Des.network.host=0.0.0.0
   volumes:
     - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+#    - /esdata1:/usr/share/elasticsearch/data
   ports:
     - "9200:9200"
-    - "9300:9300"
-
-#elasticsearch2:
-#  build: elasticsearch/
-  #image: elasticsearch:latest
-  #command: elasticsearch -Des.network.host=0.0.0.0
-#  volumes:
-#    - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-#  ports:
-#    - "9201:9200"
-#    - "9301:9300"
-
-
-logstash:
-  image: logstash:latest
-  command: logstash -f /etc/logstash/conf.d/logstash.conf
-  volumes:
-    - ./logstash/config:/etc/logstash/conf.d
-  ports:
-    - "5000:5000"
-  links:
-    - elasticsearch
 
 kibana:
   build: kibana/
@@ -37,3 +16,44 @@ kibana:
     - "80:5601"
   links:
     - elasticsearch
+
+redis:
+  image: redis:latest
+
+logstashInput:
+  image: logstash:latest
+  command: logstash -f /etc/logstash/conf.d/*.conf
+  volumes:
+    - ./logstash/configInput:/etc/logstash/conf.d
+  ports:
+    - "5000:5000"
+    - "31311:31311"
+  links:
+    - elasticsearch
+    - redis
+
+logstashFilter:
+  image: logstash:latest
+  command: logstash -f /etc/logstash/conf.d/*.conf
+  volumes:
+    - ./logstash/configFilter:/etc/logstash/conf.d
+  links:
+    - redis
+    - elasticsearch
+
+
+# curator:
+#   build: curator/
+#   links:
+#     - elasticsearch
+#
+# elasticsearch2:
+#   build: elasticsearch/
+#   #image: elasticsearch:latest
+#   command: elasticsearch -Des.network.host=0.0.0.0
+#   volumes:
+#     - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+#    - /esdata2:/usr/share/elasticsearch/data
+#  ports:
+#    - "9201:9200"
+#    - "9301:9300"
